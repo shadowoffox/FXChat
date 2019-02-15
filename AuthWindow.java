@@ -8,20 +8,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class AuthWindow {
-    private static chat Chat;
-    String lonin;
-    String pass;
-    private static Network network;
 
-    public static Network getNetwork() {
-        return network;
-    }
-public boolean isAuthSuccessful(){
-        return network !=null;
-}
+public class AuthWindow {
+
     public static void display(){
-        network=null;
+
         Stage win = new Stage();
         win.initModality(Modality.APPLICATION_MODAL);
         win.setTitle("Authorization");
@@ -42,11 +33,10 @@ public boolean isAuthSuccessful(){
         Button logIn = new Button("Log in");
         logIn.setOnAction(e -> {
             try {
-                network = new Network("127.0.0.1",8888,(sendMsg) Chat );
-                network.authorise(tfLogin.getText(),pfPass.getText());
-            } catch (IOException e1) {
-                e1.printStackTrace();
-                return;
+                Network network = new Network("localhost",8888, new chat() );
+
+                network.authorise(tfLogin.getText(), pfPass.getText());
+
             } catch (AuthException e1){
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Ошибка!!!");
@@ -54,13 +44,15 @@ public boolean isAuthSuccessful(){
                 alert.setContentText("Ошибка авторизации!!!");
                 alert.showAndWait();
                 return;
+            } catch (IOException e1) {
+                e1.printStackTrace();
             }
-          win.close();  //отправляем данные на сервер авторизации, если получаем "ok" то закрываем это окно и запускаем чат, если получаем "эта учетная уже используется" или "неверный логин/пароль"
+            win.close();  //отправляем данные на сервер авторизации, если получаем "ok" то закрываем это окно и запускаем чат, если получаем "эта учетная уже используется" или "неверный логин/пароль"
             //то ниче не делаем, только выводим это на экран
         });
         Button cancel = new Button("Cancel");
         cancel.setOnAction(event -> {
-          win.close();  //останавливаем потоки закрываем сокет и закрываем программу полностью
+          win.close();//останавливаем потоки закрываем сокет и закрываем программу полностью
         });
         buttons.getChildren().addAll(logIn,cancel);
         buttons.setAlignment(Pos.CENTER);

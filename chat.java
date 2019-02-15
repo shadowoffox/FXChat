@@ -4,15 +4,25 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+
 
 public class chat extends Application implements sendMsg {
     Stage window;
 private String username;
 private String msg;
+//public Network network;
+public TextArea textArea;
     @Override
     public void start (Stage primaryStage) throws Exception {
+     /*   try{
+            network = new Network("127.0.0.1",8888,this );
+
+        }catch (IOException e1) {
+            e1.printStackTrace();}*/
+
         window = primaryStage;
         window.setTitle("Chat");
 
@@ -25,7 +35,7 @@ private String msg;
         sendline.getChildren().addAll(field, buttonSend);
 
         HBox area = new HBox(5);
-        TextArea textArea = new TextArea();
+      textArea = new TextArea();
         textArea.setEditable(false);
         ScrollPane scroll = new ScrollPane();
         scroll.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);

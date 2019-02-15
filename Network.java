@@ -49,7 +49,7 @@ public class Network implements Closeable {
             if (response.equals("/auth succesful")){
                 rec.start();
             } else {
-                throw new AuthException("");
+                throw new AuthException(){};
             }
         } catch (IOException e) {
             e.printStackTrace();

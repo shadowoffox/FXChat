@@ -9,11 +9,13 @@ public Map<String,String> users = new HashMap<>();
         users.put("Olga", "456");
         users.put("Dima", "789");
         users.put("Yura","012");
+
     }
 
     @Override
     public boolean AuthUser(String username, String password) {
        String pass = users.get(username);
-       return username !=null && pass.equals(password);
+      if (username !=null && pass.equals(password)) return true;
+      else return false;
     }
 }
