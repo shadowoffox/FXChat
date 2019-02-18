@@ -1,5 +1,6 @@
 public class AppServer {
     public static void main(String[] args) {
-        new ChatServer();
+      ChatServer chs =new ChatServer();
+      chs.ChatServer();
     }
 }

@@ -15,7 +15,6 @@ public Map<String,String> users = new HashMap<>();
     @Override
     public boolean AuthUser(String username, String password) {
        String pass = users.get(username);
-      if (username !=null && pass.equals(password)) return true;
-      else return false;
+       return pass !=null && pass.equals(password);
     }
 }

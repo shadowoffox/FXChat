@@ -11,7 +11,9 @@ import java.io.IOException;
 
 public class AuthWindow {
 
-    public static void display(){
+    public static void display(Network network){
+
+
 
         Stage win = new Stage();
         win.initModality(Modality.APPLICATION_MODAL);
@@ -32,28 +34,27 @@ public class AuthWindow {
         HBox buttons = new HBox(50);
         Button logIn = new Button("Log in");
         logIn.setOnAction(e -> {
-            try {
-                Network network = new Network("localhost",8888, new chat() );
+              try {
+                 network.authorise(tfLogin.getText(), pfPass.getText());
 
-                network.authorise(tfLogin.getText(), pfPass.getText());
+              } catch (AuthException e1) {
+                  Alert alert = new Alert(Alert.AlertType.ERROR);
+                  alert.setTitle("Ошибка!!!");
+                  alert.setHeaderText(null);
+                  alert.setContentText("Ошибка авторизации!!!");
+                  alert.showAndWait();
+                  return;
 
-            } catch (AuthException e1){
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Ошибка!!!");
-                alert.setHeaderText(null);
-                alert.setContentText("Ошибка авторизации!!!");
-                alert.showAndWait();
-                return;
-            } catch (IOException e1) {
-                e1.printStackTrace();
-            }
-            win.close();  //отправляем данные на сервер авторизации, если получаем "ok" то закрываем это окно и запускаем чат, если получаем "эта учетная уже используется" или "неверный логин/пароль"
-            //то ниче не делаем, только выводим это на экран
-        });
+              }
+              catch (IOException e1) {
+                  e1.printStackTrace();
+              }
+              chat.window.setTitle("Chating...From... " + tfLogin.getText()+"!");
+                win.close();
+    });
+
         Button cancel = new Button("Cancel");
-        cancel.setOnAction(event -> {
-          win.close();//останавливаем потоки закрываем сокет и закрываем программу полностью
-        });
+        cancel.setOnAction(event ->  System.exit(0) );
         buttons.getChildren().addAll(logIn,cancel);
         buttons.setAlignment(Pos.CENTER);
 
